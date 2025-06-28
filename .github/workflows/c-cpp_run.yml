@@ -1,0 +1,35 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build the Timer
+        run: make build
+  
+  run:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run the Timer
+        run: make run
+      - name: Go For a Minute
+        run: make run ARG1=0 ARG2=0 ARG3=60
+  
+  clean:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Clean
+        run: make clean
