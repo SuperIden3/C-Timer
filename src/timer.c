@@ -8,8 +8,6 @@
 
 typedef unsigned long long int timer_t;
 
-static const int ISATTY = isatty(STDOUT_FILENO); // Check if stdout is a tty for those who want to play with this source coude in a plain-text output.
-
 /**
  * @brief Quickly convert hours, minutes, and seconds into just seconds.
  * 
@@ -21,6 +19,7 @@ static const int ISATTY = isatty(STDOUT_FILENO); // Check if stdout is a tty for
 timer_t as_seconds(timer_t hours, timer_t minutes, timer_t seconds) { return seconds + (minutes * 60) + (hours * 3600); }
 
 int main(int argc, char **argv) {
+  const int ISATTY = isatty(STDOUT_FILENO); // Check if stdout is a tty for those who want to play with this source coude in a plain-text output.
   timer_t seconds       = 0;
   timer_t minutes       = 0;
   timer_t hours         = 0;
@@ -56,9 +55,11 @@ int main(int argc, char **argv) {
   total_seconds = as_seconds(hours, minutes, seconds);
   while (total_seconds > 0) {
     // Format & print time and decrement total seconds.
-    if (ISATTY) printf("\r");
     printf("%02llu:%02llu:%02llu", hours, minutes, seconds);
-    if (ISATTY) printf("\n"); else fflush(stdout);
+    if (ISATTY) {
+      printf("\r");
+      fflush(stdout);
+    } else printf("\n");
     sleep(1);
     total_seconds--;
 
@@ -75,7 +76,7 @@ int main(int argc, char **argv) {
     else seconds--;
   }
 
-  printf("\r00:00:00");
+  printf("00:00:00");
   if (ISATTY) printf("\007");
   printf("\n");
   return 0;
