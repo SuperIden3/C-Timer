@@ -33,7 +33,7 @@ int main(int argc, char **argv) {
       break;
 
     case 3: // ./timer h s
-      minutes = strtoull(argv[1], NULL, 10);
+      hours   = strtoull(argv[1], NULL, 10);
       seconds = strtoull(argv[2], NULL, 10);
       break;
 
