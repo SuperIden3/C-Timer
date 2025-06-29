@@ -4,8 +4,6 @@
 #include <stdio.h> // printf
 #include <unistd.h> // sleep
 
-#undef _POSIX_C_SOURCE
-
 int main(void) { // Stopwatch program will take in no arguments, as it will count time forever.
   const int ISATTY = isatty(STDOUT_FILENO);
   timer_t seconds       = 0;

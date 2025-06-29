@@ -5,8 +5,6 @@
 #include <unistd.h> // sleep
 #include <stdlib.h> // strtoull
 
-#undef _POSIX_C_SOURCE
-
 int main(int argc, char **argv) {
   const int ISATTY = isatty(STDOUT_FILENO); // Check if stdout is a tty for those who want to play with this source coude in a plain-text output.
   timer_t seconds       = 0;
