@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -pedantic -std=c99 -O3 -s
+CFLAGS = -Wall -Wextra -pedantic -std=c99 -O3 -s -I ./code_deps/
 
 SRCDIR = src
 OUTDIR = out
