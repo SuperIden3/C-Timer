@@ -2,7 +2,7 @@
 
 This project provides two simple C programs: `timer` and `stopwatch`.
 
-Both programs intelligently detect if their output (`stdout`) is a terminal (TTY). This allows them to provide a dynamic, single-line display when run in a terminal, or a newline-separated output when redirected to a file, ensuring clean and appropriate formatting for different use cases.
+Both programs detect if their output (`stdout`) is a terminal (TTY). This allows them to provide a dynamic, single-line display when run in a terminal, or a newline-separated output when redirected to a file, ensuring clean and appropriate formatting for different use cases.
 
 ## Usage
 
@@ -10,7 +10,7 @@ Both programs intelligently detect if their output (`stdout`) is a terminal (TTY
 
 The `timer` program simulates a countdown timer. It's highly flexible in how you specify the duration.
 
-**Duration Input:**
+#### Duration Input
 
 You can provide the countdown duration in several ways:
 
@@ -21,21 +21,23 @@ You can provide the countdown duration in several ways:
 
 The program uses `unsigned long long int` for time values, allowing for very long countdown durations.
 
-**Time Normalization:**
+Therefore, decimals won't work as arguments. The Timer program only supports whole numbers.
+
+#### Time Normalization
 
 A convenient feature is automatic time normalization. If you input minutes or seconds values greater than or equal to 60, the `timer` will correctly convert them into a standard time format. For example:
 
 *   `./timer 0 0 70` will be interpreted as `00:01:10` (1 minute and 10 seconds).
 *   `./timer 0 75 0` will be interpreted as `01:15:00` (1 hour and 15 minutes).
 
-**Output Behavior (TTY vs. File):**
+#### Output Behavior (TTY vs. File)
 
-The `timer` intelligently adapts its output based on where it's being displayed:
+The `timer` adapts its output based on where it's being displayed:
 
-*   **In a Terminal (TTY):** When run in a standard terminal, the timer will update the time dynamically in-place using a carriage return (`\r`). This provides a clean, single-line display that continuously refreshes. Upon completion, it will print a final "00:00:00" and emit an audible bell sound (`\007`) to notify you that the time is up.
+*   **In a Terminal (TTY):** When run in a standard terminal, the timer will update the time dynamically in-place using a carriage return (`\r`), making a clean, single-line display that continuously refreshes. Upon completion, it will print a final "00:00:00" and emit an audible bell sound (`\007`) to notify you that the time is up.
 *   **Redirected to a File/Pipe:** If you redirect the output (e.g., `./timer 5 > output.txt`), each one-second interval will be printed on a new line. This is useful for logging or processing the timer's progress. The bell sound is not emitted in this mode.
 
-**Examples:**
+#### Examples
 
 ```sh
 # Default 10-second countdown
@@ -58,16 +60,16 @@ $ ./timer 0 0 90
 
 The `stopwatch` program counts time upwards from zero, like a traditional stopwatch. It takes no arguments and will run indefinitely until manually stopped by the user (typically by pressing `Ctrl+C`).
 
-**Output Behavior (TTY vs. File):**
+#### Output Behavior (TTY vs. File)
 
 Similar to the `timer`, the `stopwatch` adapts its output:
 
 *   **In a Terminal (TTY):** The stopwatch displays the elapsed time, dynamically updating it in-place on a single line using a carriage return (`\r`). This provides a continuously refreshing view of the ongoing time.
 *   **Redirected to a File/Pipe:** If you redirect the output (e.g., `./stopwatch > timing_log.txt`), each one-second interval of elapsed time will be printed on a new line.
 
-The program uses `unsigned long long int` to store the elapsed time, allowing it to run and track time for exceptionally long periods.
+The program also uses `unsigned long long int` to store the elapsed time, allowing it to run and track time for exceptionally long periods.
 
-**Example Usage and Output:**
+#### Example Usage and Output
 
 To start the stopwatch, simply run the command:
 
