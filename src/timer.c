@@ -34,10 +34,12 @@ int main(int argc, char **argv) {
   }
 
   // Hours, minutes, and seconds would be changed if minutes and seconds exceed 60.
-  hours += minutes / 60;   // Add to hours if minutes exceed 60.
-  minutes %= 60;           // Set minutes to 0 if minutes exceed 60.
-  minutes += seconds / 60; // Add to minutes if seconds exceed 60.
-  seconds %= 60;           // Set seconds to 0 if seconds exceed 60.
+  while (seconds >= 60 || minutes >= 60) {
+    hours += minutes / 60;   // Add to hours if minutes exceed 60.
+    minutes %= 60;           // Set minutes to 0 if minutes exceed 60.
+    minutes += seconds / 60; // Add to minutes if seconds exceed 60.
+    seconds %= 60;           // Set seconds to 0 if seconds exceed 60.
+  }
 
   total_seconds = as_seconds(hours, minutes, seconds);
   while (total_seconds > 0) {
