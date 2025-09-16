@@ -4,25 +4,14 @@
 #include <stdio.h> // printf
 #include <unistd.h> // sleep
 #include <stdlib.h> // strtoull
-#include <signal.h> // Handle SIGTSTP (Ctrl+Z)
 #include <stdbool.h> // Manage SIGTSTP using a `bool`
+#include <unistd.h> // sleep; tcgetpgrp, getpgrp for checking if a process is in the foreground
 
-volatile bool sigtstp = false;
-
-void sigtstp_handler(int code) {
-  sigtstp = code == SIGTSTP;
-}
+static bool in_background = false;
+static bool can_check = true;
 
 int main(int argc, char **argv) {
   const bool ISATTY = isatty(STDOUT_FILENO) == 1; // Check if stdout is a tty for those who want to play with this source coude in a plain-text output.
-
-  struct sigaction sa;             // For sigaction()
-  sa.sa_handler = sigtstp_handler; // Set handler
-  sigemptyset(&sa.sa_mask);        // Clear signal masks
-  sa.sa_flags = 0;                 // No special flags
-  if (sigaction(SIGTSTP, &sa, NULL) == -1) {
-    perror("sigaction() failed, cannot set handler for SIGTSTP");
-  }
 
   timer_t seconds       = 0;
   timer_t minutes       = 0;
@@ -60,8 +49,17 @@ int main(int argc, char **argv) {
 
   total_seconds = as_seconds(hours, minutes, seconds);
   while (total_seconds > 0) {
+    const pid_t fg = tcgetpgrp(STDIN_FILENO); // Check if a process is in the foreground
+    const pid_t pg = getpgrp(); // Check if a process is in the background
+    if (fg == -1) { // Handle error
+      can_check = false; // Stop checking if a process is in the foreground
+    }
+    if (can_check &&) { // If checkable...
+      in_background = pg != fg; // Set background to true if a process is in the background
+    }
+
     // Format & print time and decrement total seconds.
-    if (!sigtstp) {
+    if (!in_background) { // Only print time if not in the background
       printf("%02llu:%02llu:%02llu", hours, minutes, seconds);
       if (ISATTY) {
         printf("\r");
@@ -88,7 +86,7 @@ int main(int argc, char **argv) {
     }
   }
 
-  if (!sigtstp) printf("00:00:00");
+  if (!in_background) printf("00:00:00");
   if (ISATTY) printf("\007");
   printf("\n");
   return 0;
