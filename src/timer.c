@@ -54,7 +54,7 @@ int main(int argc, char **argv) {
     if (fg == -1) { // Handle error
       can_check = false; // Stop checking if a process is in the foreground
     }
-    if (can_check &&) { // If checkable...
+    if (can_check) { // If checkable...
       in_background = pg != fg; // Set background to true if a process is in the background
     }
 
