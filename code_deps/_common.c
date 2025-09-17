@@ -9,3 +9,4 @@ typedef unsigned long long int timer_t;
  * @return timer_t
  */
 timer_t as_seconds(timer_t hours, timer_t minutes, timer_t seconds) { return seconds + (minutes * 60) + (hours * 3600); }
+
