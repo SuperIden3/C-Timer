@@ -22,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Run the Timer
-        run: make run
+        run: make run_timer
       - name: Go For a Minute
         run: make run_timer ARG1=0 ARG2=1 ARG3=0
   
