@@ -21,7 +21,7 @@ $(OUT_DIR)%: ./src/%.c $(OUT_DIR)
 	@echo "Compiled $< into $@"
 
 run_timer: $(OUTS)
-	./$(OUT_DIR)/timer
+	./$(OUT_DIR)/timer $(ARG1) $(ARG2) $(ARG3)
 
 run_stopwatch: $(OUTS)
 	./$(OUT_DIR)/stopwatch
